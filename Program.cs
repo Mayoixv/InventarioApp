@@ -10,5 +10,6 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapListar();
+app.MapCrear();
 
 app.Run();
