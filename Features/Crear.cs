@@ -1,5 +1,6 @@
 using InventarioApp.Data;
 using InventarioApp.Models;
+using InventarioApp.Validation;
 using Microsoft.Data.SqlClient;
 
 namespace InventarioApp.Features;
@@ -10,6 +11,9 @@ public static class Crear
     {
         app.MapPost("/api/productos", async (Producto p, Db db) =>
         {
+            if (ProductoValidator.Validar(p) is { } error)
+                return Results.BadRequest(new { mensaje = error });
+
             await using var connection = await db.OpenAsync();
             await using var command = new SqlCommand(
                 @"INSERT INTO dbo.Productos (Nombre, Precio, Cantidad)
